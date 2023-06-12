@@ -20,7 +20,8 @@ const useComicsCalls = () => {
     }
   };
   const getCharacters = () => getComicsData("characters");
-  return { getCharacters };
+  const getSeries = () => getComicsData("series");
+  return { getCharacters, getSeries };
 };
 
 export default useComicsCalls;

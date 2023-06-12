@@ -16,12 +16,14 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import axios from "axios";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 
 import useComicsCalls from "../hooks/useComicsCalls";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import TableMarvel from "./TableMarvel";
+import BasicTable from "./TableMarvel";
+import SearchBar from "./SearchBar";
 
 const drawerWidth = 240;
 
@@ -94,12 +96,16 @@ const Main = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const characters = useSelector((state) => state.marvel);
-  const { getCharacters } = useComicsCalls();
+  const series = useSelector((state) => state.marvel);
+  const { getCharacters, getSeries } = useComicsCalls();
 
   React.useEffect(() => {
     getCharacters();
+    getSeries();
   }, []);
+
   console.log(characters);
+  console.log(series);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -114,7 +120,7 @@ const Main = () => {
     console.log(apiKey, hash);
 
     const data = await axios(
-      `http://gateway.marvel.com/v1/public/comics?ts=1&apikey=${apiKey}&hash=${hash}`
+      `http://gateway.marvel.com/v1/public/characters?limit=100&ts=1&apikey=${apiKey}&hash=${hash}`
     );
     console.log(data);
   };
@@ -158,7 +164,10 @@ const Main = () => {
           </DrawerHeader>
           <Divider />
           <List>
-            {["Characters", "Series"].map((text, index) => (
+            {[
+              `Characters (${characters.characters.data.total})`,
+              `Series (${series.characters.data.total})`,
+            ].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
@@ -166,6 +175,7 @@ const Main = () => {
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
                   }}
+                  onClick={() => console.log("calisti")}
                 >
                   <ListItemIcon
                     sx={{
@@ -183,7 +193,7 @@ const Main = () => {
           </List>
           <Divider />
           <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
+            {["Search", "Filter"].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
@@ -199,7 +209,7 @@ const Main = () => {
                       justifyContent: "center",
                     }}
                   >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    <ManageSearchIcon />
                   </ListItemIcon>
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
@@ -207,41 +217,11 @@ const Main = () => {
             ))}
           </List>
         </Drawer>
-        <Box
-          component="main"
-          sx={{ flexGrow: 1, p: 3, marginLeft: `${drawerWidth}px` }}
-        >
+        <Box component="main" sx={{ flexGrow: 1, p: 3, mx: "5rem" }}>
           <DrawerHeader />
-          <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-            dolor purus non enim praesent elementum facilisis leo vel. Risus at
-            ultrices mi tempus imperdiet. Semper risus in hendrerit gravida
-            rutrum quisque non tellus. Convallis convallis tellus id interdum
-            velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean
-            sed adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-            integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-            eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-            quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-            vivamus at augue. At augue eget arcu dictum varius duis at
-            consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-            donec massa sapien faucibus et molestie ac.
-          </Typography>
-          <Typography paragraph>
-            Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-            ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-            elementum integer enim neque volutpat ac tincidunt. Ornare
-            suspendisse sed nisi lacus sed viverra tellus. Purus sit amet
-            volutpat consequat mauris. Elementum eu facilisis sed odio morbi.
-            Euismod lacinia at quis risus sed vulputate odio. Morbi tincidunt
-            ornare massa eget egestas purus viverra accumsan in. In hendrerit
-            gravida rutrum quisque non tellus orci ac. Pellentesque nec nam
-            aliquam sem et tortor. Habitant morbi tristique senectus et.
-            Adipiscing elit duis tristique sollicitudin nibh sit. Ornare aenean
-            euismod elementum nisi quis eleifend. Commodo viverra maecenas
-            accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam
-            ultrices sagittis orci a.
-          </Typography>
+          {/* <TableMarvel /> */}
+          {/* <SearchBar /> */}
+          <BasicTable />
         </Box>
       </Box>
     </>

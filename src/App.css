@@ -42,3 +42,7 @@
 .css-1191obr-MuiPaper-root-MuiAppBar-root {
   width: 0 !important;
 }
+
+.navbar {
+  height: 64px;
+}
