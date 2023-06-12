@@ -6,6 +6,9 @@ import * as serviceWorker from "./serviceWorker";
 import { Auth0Provider } from "@auth0/auth0-react";
 import history from "./utils/history";
 import { getConfig } from "./config";
+import store from "./app/store";
+
+import { Provider } from "react-redux";
 
 const onRedirectCallback = (appState) => {
   history.push(
@@ -30,7 +33,9 @@ const providerConfig = {
 const root = createRoot(document.getElementById("root"));
 root.render(
   <Auth0Provider {...providerConfig}>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </Auth0Provider>
 );
 

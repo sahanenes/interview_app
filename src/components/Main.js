@@ -20,6 +20,9 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import axios from "axios";
 
+import useComicsCalls from "../hooks/useComicsCalls";
+import { useSelector } from "react-redux";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -90,6 +93,13 @@ const Drawer = styled(MuiDrawer, {
 const Main = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const characters = useSelector((state) => state.marvel);
+  const { getCharacters } = useComicsCalls();
+
+  React.useEffect(() => {
+    getCharacters();
+  }, []);
+  console.log(characters);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -148,7 +158,7 @@ const Main = () => {
           </DrawerHeader>
           <Divider />
           <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+            {["Characters", "Series"].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
@@ -164,7 +174,7 @@ const Main = () => {
                       justifyContent: "center",
                     }}
                   >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                   </ListItemIcon>
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
@@ -197,7 +207,10 @@ const Main = () => {
             ))}
           </List>
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, p: 3, marginLeft: `${drawerWidth}px` }}
+        >
           <DrawerHeader />
           <Typography paragraph>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

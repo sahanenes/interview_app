@@ -33,3 +33,12 @@
 .result-block-container .result-block {
   opacity: 1;
 }
+
+.css-19z1ozs-MuiPaper-root-MuiAppBar-root {
+  width: 4rem !important;
+  left: 0 !important;
+}
+
+.css-1191obr-MuiPaper-root-MuiAppBar-root {
+  width: 0 !important;
+}
