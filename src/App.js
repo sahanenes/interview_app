@@ -1,38 +1,39 @@
 import React from "react";
-// import { Router, Route, Switch } from "react-router-dom";
-// import { Container } from "reactstrap";
 
-import Loading from "./components/Loading";
-// import NavBar from "./components/NavBar";
-// import Footer from "./components/Footer";
-// import Profile from "./components/Profile";
-import { useAuth0 } from "@auth0/auth0-react";
-// import history from "./utils/history";
 import AppRouter from "./router/AppRouter";
 
-// styles
 import "./App.css";
 
-// fontawesome
 import initFontAwesome from "./utils/initFontAwesome";
-// import Main from "./components/Main";
 
-// import TableMarvel from "./components/TableMarvel";
-// import SearchBar from "./components/SearchBar";
+import { useState, createContext, useContext } from "react";
+
 initFontAwesome();
 
+export const UserContext = createContext();
+
 const App = () => {
-  const { isLoading, error } = useAuth0();
+  const [page, setPage] = useState(1);
+  const [offset, setOffset] = useState(0);
+  const [searching, setSearching] = useState("");
+  const [searchingSeries, setSearchingSeries] = useState("");
 
-  if (error) {
-    return <div>Oops... {error.message}</div>;
-  }
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  return <AppRouter />;
+  return (
+    <UserContext.Provider
+      value={{
+        page,
+        setPage,
+        offset,
+        setOffset,
+        searching,
+        setSearching,
+        searchingSeries,
+        setSearchingSeries,
+      }}
+    >
+      <AppRouter />
+    </UserContext.Provider>
+  );
 };
 
 export default App;

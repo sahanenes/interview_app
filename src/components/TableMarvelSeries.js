@@ -9,21 +9,33 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { UserContext } from "../App";
+
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
 const TableMarvelSeries = () => {
-  const characters = useSelector((state) => state.marvel);
-  const series = useSelector((state) => state.marvel);
+  const series = useSelector((state) => state.marvel.series);
   const { getSeries } = useComicsCalls();
+  const { page, setPage, offset, setOffset } = React.useContext(UserContext);
 
   React.useEffect(() => {
     getSeries();
-  }, []);
+  }, [page]);
 
-  // characters.characters.data.results.map((item) => {
-  //   console.log(item.id);
-  // });
-  //   console.log(characters);
-  console.log(series);
+  const handleNext = () => {
+    setPage(page + 1);
+    setOffset(offset + 10);
+    window.scrollTo(0, 0);
+  };
+  const handlePrevious = () => {
+    if (page > 1) {
+      setPage(page - 1);
+      setOffset(offset - 10);
+      window.scrollTo(0, 0);
+    }
+  };
+
   return (
     <>
       <TableContainer sx={{ px: "20rem" }} component={Paper}>
@@ -38,9 +50,9 @@ const TableMarvelSeries = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {characters?.series?.data?.results?.map((row) => (
+            {series?.data?.results?.map((row, index) => (
               <TableRow
-                key={row.name}
+                key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell align="center">
@@ -68,6 +80,20 @@ const TableMarvelSeries = () => {
             ))}
           </TableBody>
         </Table>
+        <Stack
+          spacing={2}
+          direction="row"
+          justifyContent="center"
+          sx={{ mt: 2 }}
+        >
+          <Button variant="outlined" onClick={handlePrevious}>
+            Previos
+          </Button>
+          <Button variant="contained">{page}</Button>
+          <Button variant="outlined" onClick={handleNext}>
+            Next
+          </Button>
+        </Stack>
       </TableContainer>
     </>
   );

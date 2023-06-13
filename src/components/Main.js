@@ -20,16 +20,7 @@ import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 
 import useComicsCalls from "../hooks/useComicsCalls";
 import { useSelector } from "react-redux";
-import axios from "axios";
-import TableMarvel from "./TableMarvel";
-import BasicTable from "./TableMarvel";
-import SearchBar from "./SearchBar";
-import {
-  Redirect,
-  useHistory,
-} from "react-router-dom/cjs/react-router-dom.min";
-import { NavLink } from "react-router-dom/cjs/react-router-dom";
-import { Link } from "@mui/material";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const drawerWidth = 240;
 
@@ -109,11 +100,8 @@ const Main = () => {
 
   React.useEffect(() => {
     getCharacters();
-    // getSeries();
+    getSeries();
   }, []);
-
-  console.log(characters);
-  // console.log(series);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -122,22 +110,6 @@ const Main = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const getData = async () => {
-    const apiKey = process.env.REACT_APP_API_KEY;
-    const hash = process.env.REACT_APP_HASH;
-    console.log(apiKey, hash);
-
-    const data = await axios(
-      `http://gateway.marvel.com/v1/public/characters?limit=100&ts=1&apikey=${apiKey}&hash=${hash}`
-    );
-    console.log(data);
-  };
-  React.useEffect(() => {
-    getData();
-    return () => {};
-  }, []);
-
-  const handleClick = () => {};
 
   return (
     <>
@@ -157,9 +129,7 @@ const Main = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
-              Mini variant drawer
-            </Typography>
+            <Typography variant="h6" noWrap component="div"></Typography>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -176,7 +146,7 @@ const Main = () => {
           <List>
             {[
               `Characters (${characters?.characters?.data?.total})`,
-              `Series (${series?.characters?.data?.total})`,
+              `Series (${series?.series?.data?.total})`,
             ].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
@@ -207,7 +177,7 @@ const Main = () => {
           </List>
           <Divider />
           <List>
-            {["Search", "Filter"].map((text, index) => (
+            {["Search Characters", "Search Series"].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
@@ -217,8 +187,8 @@ const Main = () => {
                   }}
                   onClick={() =>
                     index == 0
-                      ? history.push("/search")
-                      : history.push("/series")
+                      ? history.push("/searchcharacters")
+                      : history.push("/searchseries")
                   }
                 >
                   <ListItemIcon
@@ -238,9 +208,6 @@ const Main = () => {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3, mx: "5rem" }}>
           <DrawerHeader />
-          {/* <TableMarvel /> */}
-          {/* <SearchBar /> */}
-          {/* <BasicTable /> */}
         </Box>
       </Box>
     </>

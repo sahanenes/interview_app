@@ -8,6 +8,8 @@ const marvelSlice = createSlice({
     series: null,
     loading: false,
     error: false,
+    search: null,
+    searcSeries: null,
   },
   reducers: {
     fetchStart: (state) => {

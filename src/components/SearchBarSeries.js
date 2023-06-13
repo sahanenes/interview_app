@@ -16,20 +16,29 @@ import { UserContext } from "../App";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
-export default function SearchBar() {
+export default function SearchBarSeries() {
   const [searchTerm, setSearchTerm] = useState("");
-  const search = useSelector((state) => state.marvel.characters);
-  const { searching, setSearching, setPage, page, setOffset, offset } =
-    React.useContext(UserContext);
+  const searchSeries = useSelector((state) => state.marvel.series);
+  const {
+    searchingSeries,
+    setSearchingSeries,
+    setPage,
+    page,
+    setOffset,
+    offset,
+  } = React.useContext(UserContext);
 
-  const { getSearchCharacters } = useComicsCalls();
+  const { getSearchSeries } = useComicsCalls();
 
   React.useEffect(() => {
-    getSearchCharacters();
-  }, [searching, page]);
+    getSearchSeries();
+    // getSeries();
+  }, [searchingSeries, page]);
+
+  console.log(searchSeries);
 
   const handleChange = (event) => {
-    setSearching(event.target.value);
+    setSearchingSeries(event.target.value);
   };
 
   const handleNext = () => {
@@ -52,8 +61,8 @@ export default function SearchBar() {
         <TextField
           id="search"
           type="search"
-          label="Search Characters"
-          value={searching}
+          label="Search Series"
+          value={searchingSeries}
           onChange={handleChange}
           sx={{ width: 600 }}
           InputProps={{
@@ -71,15 +80,15 @@ export default function SearchBar() {
             <TableRow>
               <TableCell align="center">Picture</TableCell>
               <TableCell align="center">Name</TableCell>
-              <TableCell align="center">Serie</TableCell>
+              <TableCell align="center">Creator</TableCell>
               {/* <TableCell align="center">Carbs&nbsp;(g)</TableCell>
-           <TableCell align="center">Protein&nbsp;(g)</TableCell> */}
+              <TableCell align="center">Protein&nbsp;(g)</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {search?.data?.results?.map((row) => (
+            {searchSeries?.data?.results?.map((row, index) => (
               <TableRow
-                key={row.name}
+                key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell align="center">
@@ -89,39 +98,24 @@ export default function SearchBar() {
                   />
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">
-                  {row.name}
+                  {row.title}
                 </TableCell>
                 <TableCell align="center">
-                  {row?.series?.items[0]?.name
-                    ? row?.series?.items[0]?.name
+                  {row?.creators?.items[0]?.name
+                    ? row?.creators?.items[0]?.name
                     : "No result"}
                 </TableCell>
 
                 {/* <TableCell align="center">
-               {row.comics.items.map((item) => {
-                 <li>{item.name}</li>;
-               })}
-             </TableCell> */}
+                  {row.comics.items.map((item) => {
+                    <li>{item.name}</li>;
+                  })}
+                </TableCell> */}
                 {/* <TableCell align="center">{row.protein}</TableCell> */}
               </TableRow>
             ))}
           </TableBody>
         </Table>
-
-        {/* <Stack
-          spacing={2}
-          direction="row"
-          justifyContent="center"
-          sx={{ mt: 2 }}
-        >
-          <Button variant="outlined" onClick={handlePrevious}>
-            Previos
-          </Button>
-          <Button variant="contained">{page}</Button>
-          <Button variant="outlined" onClick={handleNext}>
-            Next
-          </Button>
-        </Stack> */}
         <Stack
           spacing={2}
           direction="row"

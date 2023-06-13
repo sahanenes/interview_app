@@ -31,7 +31,6 @@ const NavBar = () => {
     const fetchToken = async () => {
       try {
         const accessToken = await getAccessTokenSilently();
-        console.log(accessToken);
         localStorage.setItem("authToken", accessToken); // Store token in local storage
       } catch (error) {
         console.error(error);

@@ -1,10 +1,13 @@
 import React from "react";
 
 const Footer = () => (
-  <footer className="bg-light p-3 text-center">
+  <footer className="bg-light p-3 text-center pt-5">
     <div className="logo" />
     <p>
-      Sample project provided by <a href="https://auth0.com">Auth0</a>
+      This website made by{" "}
+      <a href="https://www.linkedin.com/in/enes-sahan/" target="_blank">
+        ENES SAHAN
+      </a>
     </p>
   </footer>
 );
