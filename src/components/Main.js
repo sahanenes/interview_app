@@ -24,6 +24,12 @@ import axios from "axios";
 import TableMarvel from "./TableMarvel";
 import BasicTable from "./TableMarvel";
 import SearchBar from "./SearchBar";
+import {
+  Redirect,
+  useHistory,
+} from "react-router-dom/cjs/react-router-dom.min";
+import { NavLink } from "react-router-dom/cjs/react-router-dom";
+import { Link } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -95,17 +101,19 @@ const Drawer = styled(MuiDrawer, {
 const Main = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const history = useHistory();
+
   const characters = useSelector((state) => state.marvel);
   const series = useSelector((state) => state.marvel);
   const { getCharacters, getSeries } = useComicsCalls();
 
   React.useEffect(() => {
     getCharacters();
-    getSeries();
+    // getSeries();
   }, []);
 
   console.log(characters);
-  console.log(series);
+  // console.log(series);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -128,6 +136,8 @@ const Main = () => {
     getData();
     return () => {};
   }, []);
+
+  const handleClick = () => {};
 
   return (
     <>
@@ -165,8 +175,8 @@ const Main = () => {
           <Divider />
           <List>
             {[
-              `Characters (${characters.characters.data.total})`,
-              `Series (${series.characters.data.total})`,
+              `Characters (${characters?.characters?.data?.total})`,
+              `Series (${series?.characters?.data?.total})`,
             ].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
@@ -175,7 +185,11 @@ const Main = () => {
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
                   }}
-                  onClick={() => console.log("calisti")}
+                  onClick={() =>
+                    index == 0
+                      ? history.push("/table")
+                      : history.push("/series")
+                  }
                 >
                   <ListItemIcon
                     sx={{
@@ -201,6 +215,11 @@ const Main = () => {
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
                   }}
+                  onClick={() =>
+                    index == 0
+                      ? history.push("/search")
+                      : history.push("/series")
+                  }
                 >
                   <ListItemIcon
                     sx={{
@@ -221,7 +240,7 @@ const Main = () => {
           <DrawerHeader />
           {/* <TableMarvel /> */}
           {/* <SearchBar /> */}
-          <BasicTable />
+          {/* <BasicTable /> */}
         </Box>
       </Box>
     </>

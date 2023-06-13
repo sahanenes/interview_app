@@ -10,21 +10,20 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-const TableMarvel = () => {
+const TableMarvelSeries = () => {
   const characters = useSelector((state) => state.marvel);
   const series = useSelector((state) => state.marvel);
-  const { getCharacters, getSeries } = useComicsCalls();
+  const { getSeries } = useComicsCalls();
 
   React.useEffect(() => {
-    getCharacters();
-    // getSeries();
+    getSeries();
   }, []);
 
   // characters.characters.data.results.map((item) => {
   //   console.log(item.id);
   // });
-  console.log(characters);
-  // console.log(series);
+  //   console.log(characters);
+  console.log(series);
   return (
     <>
       <TableContainer sx={{ px: "20rem" }} component={Paper}>
@@ -33,13 +32,13 @@ const TableMarvel = () => {
             <TableRow>
               <TableCell align="center">Picture</TableCell>
               <TableCell align="center">Name</TableCell>
-              <TableCell align="center">Serie</TableCell>
+              <TableCell align="center">Creator</TableCell>
               {/* <TableCell align="center">Carbs&nbsp;(g)</TableCell>
               <TableCell align="center">Protein&nbsp;(g)</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {characters?.characters?.data?.results?.map((row) => (
+            {characters?.series?.data?.results?.map((row) => (
               <TableRow
                 key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -51,11 +50,11 @@ const TableMarvel = () => {
                   />
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">
-                  {row.name}
+                  {row.title}
                 </TableCell>
                 <TableCell align="center">
-                  {row?.series?.items[0]?.name
-                    ? row?.series?.items[0]?.name
+                  {row?.creators?.items[0]?.name
+                    ? row?.creators?.items[0]?.name
                     : "No result"}
                 </TableCell>
 
@@ -74,4 +73,4 @@ const TableMarvel = () => {
   );
 };
 
-export default TableMarvel;
+export default TableMarvelSeries;

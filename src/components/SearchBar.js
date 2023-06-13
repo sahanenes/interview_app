@@ -10,14 +10,14 @@ export default function SearchBar() {
   };
 
   return (
-    <Container maxWidth="false" sx={{ mt: 2, mb: 2 }}>
+    <Container maxWidth="false" sx={{ ml: "25rem" }}>
       <TextField
         id="search"
         type="search"
         label="Search Characters"
         value={searchTerm}
         onChange={handleChange}
-        sx={{ width: 300 }}
+        sx={{ width: 600 }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
