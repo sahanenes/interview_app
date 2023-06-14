@@ -46,3 +46,7 @@
 .navbar {
   height: 64px;
 }
+
+.MuiDrawer-paper {
+  background-color: #f8f9fa;
+}

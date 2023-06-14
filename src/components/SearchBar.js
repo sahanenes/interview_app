@@ -1,5 +1,5 @@
 import { Container, InputAdornment, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import useComicsCalls from "../hooks/useComicsCalls";
 import { useSelector } from "react-redux";
@@ -17,7 +17,6 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
 export default function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState("");
   const search = useSelector((state) => state.marvel.characters);
   const { searching, setSearching, setPage, page, setOffset, offset } =
     React.useContext(UserContext);
@@ -92,9 +91,9 @@ export default function SearchBar() {
                   {row.name}
                 </TableCell>
                 <TableCell align="center">
-                  {row?.series?.items[0]?.name
-                    ? row?.series?.items[0]?.name
-                    : "No result"}
+                  {row?.series?.items && row.series.items.length > 0
+                    ? row.series.items.map((item) => item?.name)
+                    : "No Result"}
                 </TableCell>
 
                 {/* <TableCell align="center">

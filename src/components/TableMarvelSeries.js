@@ -23,6 +23,8 @@ const TableMarvelSeries = () => {
     getSeries();
   }, [page]);
 
+  console.log(series);
+
   const handleNext = () => {
     setPage(page + 1);
     setOffset(offset + 10);
@@ -44,9 +46,9 @@ const TableMarvelSeries = () => {
             <TableRow>
               <TableCell align="center">Picture</TableCell>
               <TableCell align="center">Name</TableCell>
-              <TableCell align="center">Creator</TableCell>
-              {/* <TableCell align="center">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="center">Protein&nbsp;(g)</TableCell> */}
+              <TableCell align="center">Creators</TableCell>
+              {/* <TableCell align="center">Comics</TableCell> */}
+              {/*<TableCell align="center">Protein&nbsp;(g)</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -65,16 +67,20 @@ const TableMarvelSeries = () => {
                   {row.title}
                 </TableCell>
                 <TableCell align="center">
-                  {row?.creators?.items[0]?.name
-                    ? row?.creators?.items[0]?.name
-                    : "No result"}
+                  {row?.creators?.items && row?.creators?.items.length > 0
+                    ? row.creators?.items.map((item) => item?.name + "- ")
+                    : "No Results"}
                 </TableCell>
-
+                {/* <TableCell align="center">
+                  {row?.comics?.items && row.comics.items.length > 0
+                    ? row.comics.items.map((item) => item?.name)
+                    : "No Result"}
+                </TableCell> */}
                 {/* <TableCell align="center">
                   {row.comics.items.map((item) => {
                     <li>{item.name}</li>;
                   })}
-                </TableCell> */}
+                </TableCell>  */}
                 {/* <TableCell align="center">{row.protein}</TableCell> */}
               </TableRow>
             ))}

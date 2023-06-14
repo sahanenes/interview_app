@@ -16,7 +16,7 @@ import Button from "@mui/material/Button";
 
 const TableMarvel = () => {
   const characters = useSelector((state) => state.marvel.characters);
-  const series = useSelector((state) => state.marvel);
+  // const series = useSelector((state) => state.marvel);
   const { getCharacters, getSeries } = useComicsCalls();
   const { page, setPage, offset, setOffset } = React.useContext(UserContext);
 
@@ -44,9 +44,11 @@ const TableMarvel = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">Picture</TableCell>
+              <TableCell align="center" sx={{ size: "small" }}>
+                Picture
+              </TableCell>
               <TableCell align="center">Name</TableCell>
-              <TableCell align="center">Serie</TableCell>
+              <TableCell align="center">Series</TableCell>
               {/* <TableCell align="center">Carbs&nbsp;(g)</TableCell>
               <TableCell align="center">Protein&nbsp;(g)</TableCell> */}
             </TableRow>
@@ -66,10 +68,11 @@ const TableMarvel = () => {
                 <TableCell align="center" component="th" scope="row">
                   {row.name}
                 </TableCell>
+
                 <TableCell align="center">
-                  {row?.series?.items[0]?.name
-                    ? row?.series?.items[0]?.name
-                    : "No result"}
+                  {row?.series?.items && row.series.items.length > 0
+                    ? row.series.items.map((item) => item?.name)
+                    : "No Result"}
                 </TableCell>
 
                 {/* <TableCell align="center">
